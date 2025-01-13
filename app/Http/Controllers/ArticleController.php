@@ -42,7 +42,7 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        //
+        return view('articles.detalle', compact('article'));
     }
 
     /**
@@ -50,7 +50,8 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        //
+        $categorias = Category::select('id', 'nombre')->orderBy('nombre')->get();
+        return view('articles.edit', compact('article', 'categorias'));
     }
 
     /**
@@ -58,7 +59,10 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
-        //
+        $request->validate($this->rules($article->id));
+        $article->update($request->all());
+
+        return redirect()->route('articles.index')->with('mensaje', "Artículo editado correctamente");
     }
 
     /**
@@ -66,7 +70,8 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        //
+        $article->delete();
+        return redirect()->route('articles.index')->with('mensaje', "Artículo eliminado correctamente");
     }
 
     private function rules(?int $id = null) : array {

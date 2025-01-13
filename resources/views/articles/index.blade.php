@@ -36,7 +36,9 @@ Lista Artículos
             @foreach ($articulos as $item)
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 <td class="px-6 py-4">
-                    <i class="fa-solid fa-info text-blue-500 text-xl"></i>
+                    <a href="{{route('articles.show', $item)}}">
+                        <i class="fa-solid fa-info text-blue-500 text-xl"></i>
+                    </a>
                 </td>
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{$item->nombre}}
@@ -50,7 +52,16 @@ Lista Artículos
                     {{$item->disponible}}
                 </td>
                 <td class="px-6 py-4">
-                    ACCIONES
+                    <form method="POST" action="{{route('articles.destroy', $item)}}">
+                        @csrf
+                        @method("DELETE")
+                        <a href="{{route('articles.edit', $item)}}">
+                            <i class="fas fa-edit text-green-500 text-xl"></i>
+                        </a>
+                        <button type="submit">
+                            <i class="fas fa-trash text-gray-500 text-xl"></i>
+                        </button>
+                    </form>
                 </td>
             </tr>   
             @endforeach
